@@ -20,6 +20,8 @@ class Ingredient(models.Model):
 
     def __str__(self):
         return self.name
+    def get_absolute_url(self):
+        return "/ingredients"
 
 class MenuItem(models.Model):
     title = models.CharField(max_length=30)
@@ -27,6 +29,9 @@ class MenuItem(models.Model):
 
     def __str__(self):
         return self.title
+    
+    def get_absolute_url(self):
+        return "/menus"
 
 class RecipeRequirement(models.Model):
     menu_item = models.ForeignKey(MenuItem, on_delete=models.CASCADE)
@@ -35,6 +40,9 @@ class RecipeRequirement(models.Model):
 
     def __str__(self):
         return self.menu_item
+    
+    def get_absolute_url(self):
+        return "/menus"
 
 class Purchase(models.Model):
     menu_item = models.ForeignKey(MenuItem,on_delete=models.CASCADE)
@@ -42,3 +50,5 @@ class Purchase(models.Model):
 
     def __str__(self):
         return self.menu_item
+    def get_absolute_url(self):
+        return "/purchases"

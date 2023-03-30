@@ -4,11 +4,15 @@ from .forms import IngredientForm, MenuItemForm, RecipeRequirementForm, Purchase
 from django.views.generic import ListView, TemplateView
 from django.views.generic.edit import DeleteView, UpdateView, CreateView
 # Create your views here.
-class HomeView(TemplateView):
-    template_name = "home.html"
 
-class Profit(TemplateView):
-    pass
+
+
+class HomeView(TemplateView):
+    template_name = "inventory/home.html"
+
+class RevenuesView(TemplateView):
+    template_name = "inventory/revenues.html"
+
 
 #Ingredient CRUD
 class IngredientList(ListView):
@@ -27,7 +31,7 @@ class IngredientUpdate(UpdateView):
     form_class = IngredientForm
 
 class IngredientDelete(DeleteView):
-    template_name = "inventory/delete_ingredients.html"
+    template_name = "inventory/delete_ingredient.html"
     model = Ingredient
     success_url = "ingredients.html"
 
@@ -35,7 +39,7 @@ class IngredientDelete(DeleteView):
 class MenuList(ListView):
     template_name = "inventory/menu_items.html"
     model = MenuItem
-    ordering = ['name']
+    ordering = ['title']
 
 class MenuCreate(CreateView):
     template_name = "inventory/new_menu.html"
@@ -51,12 +55,18 @@ class MenuDelete(DeleteView):
     template_name = "inventory/delete_menu.html"
     model = MenuItem
     success_url = "menu_items.html"
-    
+
+#Recipe requirement
+class RecipeCreate(CreateView):
+    template_name = "inventory/new_recipe.html"
+    model = RecipeRequirement
+    form_class = RecipeRequirementForm
+
 #Purchase C-R
 class PurchaseList(ListView):
     template_name = "inventory/purchases.html"
     model = Purchase
-    ordering = ['name']
+    ordering = ['timestamp']
 
 class PurchaseCreate(CreateView):
     template_name = "inventory/new_purchase.html"

@@ -1,0 +1,16 @@
+{% extends 'base.html' %}  {% block content %}
+<h2>Purchases</h2>
+<table>
+    <tbody>
+{% for purchase in object_list %}
+<tr>
+    <td>
+        {{ purchase.menu_item}}
+        {{ purchase.timestamp}}
+    </td>
+</tr>
+{% endfor %}
+</tbody>
+</table>
+<h4><a href="{% url "new_purchase" %}">Register a new purchase</a></h3>
+{% endblock %}

@@ -1,0 +1,15 @@
+{% extends 'base.html' %}  {% block content %}
+<h2>Menu</h2>
+<table>
+    <tbody>
+{% for menu in object_list %}
+<tr>
+    <td>
+        <a href="{% url "update_menu" menu.id %}">{{menu.title}}</a> <a href="{% url "delete_menu" menu.id %}">Delete</a>
+    </td>
+</tr>
+{% endfor %}
+</tbody>
+</table>
+<h4><a href="{% url "new_menu" %}">Add a new menu</a></h3>
+{% endblock %}
