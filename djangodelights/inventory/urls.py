@@ -1,10 +1,14 @@
 from django.urls import path
-
+from django.contrib.auth import views as auth_views
 from . import views
 
 urlpatterns = [
+
+    path("logout/", views.log_out, name="logout"),
+    path('accounts/login/', auth_views.LoginView.as_view(), name="login"),
+
     path('', views.HomeView.as_view(), name='home'),
-    path('revenues/', views.RevenuesView.as_view(), name="revenues"),
+    path('revenues/', views.RevenuesView, name="revenues"),
 
     path('purchases/', views.PurchaseList.as_view(), name = "purchases"),
     path('purchases/new', views.PurchaseCreate.as_view(), name="new_purchase"),

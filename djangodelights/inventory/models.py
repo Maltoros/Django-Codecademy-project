@@ -16,10 +16,16 @@ class Ingredient(models.Model):
     name = models.CharField(max_length=20)
     quantity = models.PositiveIntegerField()
     unit = models.CharField(max_length=4,choices=UNIT_CHOICES)
-    price = models.FloatField()
+    price_per_unit = models.FloatField()
 
     def __str__(self):
-        return self.name
+        return f"""
+        name={self.name};
+        qty={self.quantity};
+        unit={self.unit};
+        unit_price={self.price_per_unit}
+        """
+
     def get_absolute_url(self):
         return "/ingredients"
 
@@ -27,11 +33,15 @@ class MenuItem(models.Model):
     title = models.CharField(max_length=30)
     price = models.FloatField()
 
+    def available(self):
+        return all(X.enough() for X in self.reciperequirement_set.all())
+    
     def __str__(self):
-        return self.title
+        return f"title={self.title}; price={self.price}"
     
     def get_absolute_url(self):
         return "/menus"
+    
 
 class RecipeRequirement(models.Model):
     menu_item = models.ForeignKey(MenuItem, on_delete=models.CASCADE)
@@ -39,16 +49,21 @@ class RecipeRequirement(models.Model):
     quantity = models.PositiveIntegerField()
 
     def __str__(self):
-        return self.menu_item
+        return f"menu_item=[{self.menu_item.__str__()}]; ingredient={self.ingredient.name}; qty={self.quantity}"
     
     def get_absolute_url(self):
         return "/menus"
+    
+    def enough(self):
+        return self.quantity <= self.ingredient.quantity
+
 
 class Purchase(models.Model):
     menu_item = models.ForeignKey(MenuItem,on_delete=models.CASCADE)
     timestamp = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return self.menu_item
+        return f"menu_item=[{self.menu_item.__str__()}]; time={self.timestamp}"
+    
     def get_absolute_url(self):
         return "/purchases"
